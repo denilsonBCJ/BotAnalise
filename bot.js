@@ -2,33 +2,100 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
+const readline = require('readline');
 
 class CrashBot {
     constructor() {
         this.browser = null;
         this.page = null;
-        this.dataFile = path.join(__dirname, 'crash-data.json');
-        try {
-            this.rounds = fs.existsSync(this.dataFile)
-                ? JSON.parse(fs.readFileSync(this.dataFile, 'utf8'))
-                : [];
-        } catch (e) {
-            console.error('Não foi possível carregar crash-data.json:', e.message);
-            this.rounds = [];
-        }
+        this.dataDirectory = process.env.DATA_DIR || __dirname;
+        this.dataFile = path.join(this.dataDirectory, 'crash-data.jsonl');
+        this.legacyDataFile = path.join(__dirname, 'crash-data.json');
+        fs.mkdirSync(this.dataDirectory, { recursive: true });
+        this.rounds = [];
+        this.totalRounds = 0;
+        this.roundsAbove2x = 0;
+        this.multiplierSum = 0;
+        this.maximumMultiplier = 0;
         this.isRunning = true;
         this.connected = false;
         this.currentCrash = 'Aguardando...';
         this.lastUpdatedAt = null;
     }
 
-    saveData() {
+    recordRound(round) {
+        const multiplier = Number(round.multiplier);
+        if (!Number.isFinite(multiplier) || multiplier < 1) return;
+        const item = {
+            timestamp: round.timestamp || new Date().toISOString(),
+            multiplier
+        };
+        this.totalRounds += 1;
+        this.multiplierSum += multiplier;
+        if (multiplier >= 2) this.roundsAbove2x += 1;
+        this.maximumMultiplier = Math.max(this.maximumMultiplier, multiplier);
+        this.rounds.unshift(item);
+        if (this.rounds.length > 12) this.rounds.length = 12;
+    }
+
+    async loadHistory() {
         try {
-            fs.writeFileSync(this.dataFile, JSON.stringify(this.rounds.slice(0, 1000), null, 2));
-        } catch (e) {}
+            if (!fs.existsSync(this.dataFile) && fs.existsSync(this.legacyDataFile)) {
+                const previousRounds = JSON.parse(fs.readFileSync(this.legacyDataFile, 'utf8'));
+                if (Array.isArray(previousRounds)) {
+                    const chronological = previousRounds.slice().reverse()
+                        .filter(round => Number.isFinite(Number(round.multiplier)));
+                    const compactLines = chronological.map(round => JSON.stringify([
+                        round.timestamp || new Date().toISOString(),
+                        Number(round.multiplier)
+                    ]));
+                    fs.writeFileSync(this.dataFile, compactLines.length ? `${compactLines.join('\n')}\n` : '');
+                    console.log(`Histórico anterior migrado: ${compactLines.length} rodadas.`);
+                }
+            }
+
+            if (!fs.existsSync(this.dataFile)) return;
+            const input = readline.createInterface({
+                input: fs.createReadStream(this.dataFile),
+                crlfDelay: Infinity
+            });
+            for await (const line of input) {
+                if (!line.trim()) continue;
+                try {
+                    const parsed = JSON.parse(line);
+                    const round = Array.isArray(parsed)
+                        ? { timestamp: parsed[0], multiplier: parsed[1] }
+                        : parsed;
+                    this.recordRound(round);
+                } catch (error) {
+                    console.error('Linha inválida ignorada no histórico:', error.message);
+                }
+            }
+            console.log(`Histórico carregado: ${this.totalRounds} rodadas.`);
+        } catch (error) {
+            console.error('Não foi possível carregar o histórico:', error.message);
+        }
+    }
+
+    storeRounds(newestFirst) {
+        const chronological = newestFirst.slice().reverse()
+            .filter(round => Number.isFinite(Number(round.multiplier)));
+        if (!chronological.length) return;
+
+        try {
+            const compactLines = chronological.map(round => JSON.stringify([
+                round.timestamp,
+                Number(round.multiplier)
+            ]));
+            fs.appendFileSync(this.dataFile, `${compactLines.join('\n')}\n`);
+        } catch (error) {
+            console.error('Não foi possível gravar as rodadas:', error.message);
+        }
+        chronological.forEach(round => this.recordRound(round));
     }
 
     async init() {
+        await this.loadHistory();
         console.log('🚀 Iniciando navegador...');
         this.browser = await puppeteer.launch({
             headless: true, 
@@ -105,43 +172,30 @@ class CrashBot {
     processRounds(ticker) {
         if (!ticker || ticker.length === 0) return;
 
-        const maisRecente = ticker[0];
-
+        const newestMultiplier = ticker[0];
         if (this.rounds.length === 0) {
-            // Na primeira execução, pega as 12 da tela e já salva
-            const novas = ticker.map(m => ({
-                id: Date.now() + Math.random(),
+            const initialRounds = ticker.map(multiplier => ({
                 timestamp: new Date().toISOString(),
-                multiplier: m
+                multiplier
             }));
-            this.rounds = novas; // O index 0 já é o mais recente
-            this.saveData();
-            console.log("✅ 12 rodadas iniciais importadas da tela!");
-        } else {
-            const ultimaSalva = this.rounds[0].multiplier;
-
-            if (maisRecente !== ultimaSalva) {
-                const index = ticker.indexOf(ultimaSalva);
-                let novasJogadas = [];
-                
-                if (index !== -1) {
-                    novasJogadas = ticker.slice(0, index);
-                } else {
-                    novasJogadas = [maisRecente];
-                }
-
-                const rodadasFormatadas = novasJogadas.map(m => ({
-                    id: Date.now() + Math.random(),
-                    timestamp: new Date().toISOString(),
-                    multiplier: m
-                }));
-
-                // Adiciona as novas no começo
-                this.rounds = [...rodadasFormatadas, ...this.rounds];
-                this.saveData();
-                console.log(`🎯 Nova rodada salva: ${maisRecente}x`);
-            }
+            this.storeRounds(initialRounds);
+            console.log(`✅ ${initialRounds.length} rodadas iniciais importadas da tela.`);
+            return;
         }
+
+        const lastSavedMultiplier = this.rounds[0].multiplier;
+        if (newestMultiplier === lastSavedMultiplier) return;
+
+        const lastSavedIndex = ticker.indexOf(lastSavedMultiplier);
+        const newMultipliers = lastSavedIndex !== -1
+            ? ticker.slice(0, lastSavedIndex)
+            : [newestMultiplier];
+        const newRounds = newMultipliers.map(multiplier => ({
+            timestamp: new Date().toISOString(),
+            multiplier
+        }));
+        this.storeRounds(newRounds);
+        console.log(`🎯 Nova rodada salva: ${newestMultiplier}x`);
     }
 
     async run() {
@@ -164,15 +218,9 @@ class CrashBot {
                     ).join(' ');
                     
                     console.log(`📜 HISTÓRICO (12 últimas): ${history}`);
-                    console.log(`📊 TOTAL COLETADO: ${this.rounds.length} rodadas`);
-                    
-                    if (this.rounds.length >= 100) {
-                        const recent100 = this.rounds.slice(0, 100);
-                        const acimaDe2x = recent100.filter(r => r.multiplier >= 2.0).length;
-                        console.log(`🎯 Probabilidade >= 2x (Próxima): ${acimaDe2x}%`);
-                    } else {
-                        console.log(`⏳ Faltam ${100 - this.rounds.length} rodadas para probabilidade...`);
-                    }
+                    console.log(`📊 TOTAL COLETADO: ${this.totalRounds} rodadas`);
+                    const historicalRate = (this.roundsAbove2x / this.totalRounds) * 100;
+                    console.log(`📈 FREQUÊNCIA HISTÓRICA ≥ 2x: ${historicalRate.toFixed(1)}% (${this.roundsAbove2x}/${this.totalRounds})`);
                 } else {
                     console.log(`⏳ Aguardando as primeiras rodadas...`);
                 }
@@ -221,8 +269,32 @@ const server = http.createServer((req, res) => {
         return;
     }
     if (pathname === '/api/status') {
-        const recent100 = bot.rounds.slice(0, 100);
-        const atLeast2x = recent100.filter(round => Number(round.multiplier) >= 2).length;
+        const sampleSize = bot.totalRounds;
+        const atLeast2x = bot.roundsAbove2x;
+        let stats = null;
+        if (sampleSize > 0) {
+            const proportion = atLeast2x / sampleSize;
+            const z = 1.959963984540054;
+            const zSquared = z * z;
+            const denominator = 1 + zSquared / sampleSize;
+            const center = (proportion + zSquared / (2 * sampleSize)) / denominator;
+            const margin = z * Math.sqrt(
+                (proportion * (1 - proportion) / sampleSize) +
+                (zSquared / (4 * sampleSize * sampleSize))
+            ) / denominator;
+            stats = {
+                sampleSize,
+                atLeast2x,
+                frequencyAtLeast2x: Number((proportion * 100).toFixed(1)),
+                signal80: proportion >= 0.8,
+                confidence95: {
+                    lower: Number((Math.max(0, center - margin) * 100).toFixed(1)),
+                    upper: Number((Math.min(1, center + margin) * 100).toFixed(1))
+                },
+                average: Number((bot.multiplierSum / sampleSize).toFixed(2)),
+                maximum: bot.maximumMultiplier
+            };
+        }
         res.writeHead(200, {
             'content-type': 'application/json; charset=utf-8',
             'cache-control': 'no-store'
@@ -232,15 +304,9 @@ const server = http.createServer((req, res) => {
             connected: bot.connected,
             currentCrash: bot.currentCrash,
             lastUpdatedAt: bot.lastUpdatedAt,
-            rounds: bot.rounds.slice(0, 12),
-            totalRounds: bot.rounds.length,
-            stats: recent100.length ? {
-                sampleSize: recent100.length,
-                atLeast2x,
-                frequencyAtLeast2x: Math.round((atLeast2x / recent100.length) * 100),
-                average: Number((recent100.reduce((sum, round) => sum + Number(round.multiplier || 0), 0) / recent100.length).toFixed(2)),
-                maximum: Math.max(...recent100.map(round => Number(round.multiplier) || 0))
-            } : null
+            rounds: bot.rounds,
+            totalRounds: bot.totalRounds,
+            stats
         }));
         return;
     }
@@ -251,9 +317,13 @@ const server = http.createServer((req, res) => {
                 page = page.replace('<!-- ADSENSE_ACCOUNT_META -->',
                     `<meta name="google-adsense-account" content="${adsenseClientId}">`);
             }
-            if (validPublisherId && validAdSlot) {
+            if (validPublisherId) {
+                const recoveryTags = fs.readFileSync(path.join(__dirname, 'adsense-recovery.html'), 'utf8')
+                    .replaceAll('pub-3033798023499077', adsenseClientId.slice(7));
                 page = page.replace('<!-- ADSENSE_CODE -->',
-                    `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}" crossorigin="anonymous"></script>`);
+                    `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}" crossorigin="anonymous"></script>\n${recoveryTags}`);
+            }
+            if (validPublisherId && validAdSlot) {
                 const adMarkup = `<div class="ad-wrap"><span class="ad-label">Publicidade</span><ins class="adsbygoogle" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
                 page = page.replace('<!-- ADSENSE_SLOT_LEFT -->', adMarkup)
                     .replace('<!-- ADSENSE_SLOT_RIGHT -->', adMarkup);

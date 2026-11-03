@@ -10,9 +10,9 @@
   <style>
     :root{color-scheme:dark;--bg:#0a0e13;--panel:#111820;--panel2:#151f28;--line:#24313b;--text:#eef4f5;--muted:#8797a1;--green:#45e0a0;--orange:#ffb454;--red:#ff6d78;--blue:#78b9ff}
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#18372d 0,transparent 36%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
-    .wrap{max-width:1120px;margin:auto;padding:34px 24px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:34px}.brand{display:flex;align-items:center;gap:13px}.logo{height:44px;width:44px;border:1px solid #2f5748;border-radius:14px;background:#14271f;display:grid;place-items:center;color:var(--green);font-size:22px}.brand h1{font-size:17px;letter-spacing:.01em;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:12px;background:#10171d}.dot{height:8px;width:8px;border-radius:50%;background:#697681}.pill.live{color:#a9f3d1;border-color:#275640;background:#10251c}.pill.live .dot{background:var(--green);box-shadow:0 0 12px #45e0a088}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-bottom:18px}.card{background:linear-gradient(145deg,#141d25,#10171d);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 15px 45px #0002}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:700}.current{min-height:220px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.current:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;border:1px solid #45e0a014;right:-70px;bottom:-135px;box-shadow:0 0 0 28px #45e0a008,0 0 0 57px #45e0a006}.value{font-size:clamp(52px,9vw,86px);font-weight:750;letter-spacing:-.07em;line-height:1;margin:15px 0 12px}.value.green{color:var(--green)}.sub{color:var(--muted);font-size:13px}.sub strong{color:#dce6e8;font-weight:600}.connection{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.connection span:last-child{text-align:right}.side{display:flex;flex-direction:column;justify-content:space-between;gap:22px}.side .card{flex:1}.bigstat{font-size:38px;font-weight:700;letter-spacing:-.04em;margin:12px 0 2px}.bigstat small{font-size:16px;color:var(--muted);font-weight:500}.meter{height:7px;background:#26323a;border-radius:20px;overflow:hidden;margin:17px 0 8px}.meter span{height:100%;display:block;background:linear-gradient(90deg,#3bbd8c,#a2e78d);border-radius:20px;transition:width .35s}.hint{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}.metric{min-height:132px}.metric .bigstat{font-size:30px}.history{padding:24px}.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}.history-head h2{font-size:17px;margin:0 0 3px}.history-head p{font-size:12px;color:var(--muted);margin:0}.live-tag{color:var(--green);font-size:11px;font-weight:700;letter-spacing:.1em}.rounds{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.round{border:1px solid var(--line);background:#0d141a;border-radius:12px;padding:13px 12px;min-height:68px}.round .num{font-weight:700;font-size:16px}.round .time{font-size:10px;color:var(--muted);margin-top:4px}.round.high{border-color:#26533f;background:#10221b}.round.high .num{color:var(--green)}.round.low .num{color:#dbe4e6}.empty{padding:20px;border:1px dashed #32404a;border-radius:12px;color:var(--muted);text-align:center;grid-column:1/-1}.footer{display:flex;justify-content:space-between;gap:16px;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:#9bb3bd;text-decoration:none}.footer a:hover{color:var(--green)}
-    @media(max-width:760px){.wrap{padding:22px 15px 32px}.hero{grid-template-columns:1fr}.current{min-height:205px}.side{display:grid;grid-template-columns:1fr 1fr}.grid{gap:10px}.metric{padding:17px;min-height:122px}.metric .bigstat{font-size:25px}.rounds{grid-template-columns:repeat(3,1fr)}.top{margin-bottom:22px}.card{border-radius:16px;padding:20px}}
-    @media(max-width:420px){.side{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:1/-1}.rounds{gap:7px}.round{padding:11px 9px}.footer{flex-direction:column}}
+    .wrap{max-width:1120px;margin:auto;padding:34px 24px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:34px}.brand{display:flex;align-items:center;gap:13px}.logo{height:44px;width:44px;border:1px solid #2f5748;border-radius:14px;background:#14271f;display:grid;place-items:center;color:var(--green);font-size:22px}.brand h1{font-size:17px;letter-spacing:.01em;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:12px;background:#10171d}.dot{height:8px;width:8px;border-radius:50%;background:#697681}.pill.live{color:#a9f3d1;border-color:#275640;background:#10251c}.pill.live .dot{background:var(--green);box-shadow:0 0 12px #45e0a088}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-bottom:18px}.card{background:linear-gradient(145deg,#141d25,#10171d);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 15px 45px #0002}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:700}.current{min-height:220px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.current:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;border:1px solid #45e0a014;right:-70px;bottom:-135px;box-shadow:0 0 0 28px #45e0a008,0 0 0 57px #45e0a006}.value{font-size:clamp(52px,9vw,86px);font-weight:750;letter-spacing:-.07em;line-height:1;margin:15px 0 12px}.value.green{color:var(--green)}.sub{color:var(--muted);font-size:13px}.sub strong{color:#dce6e8;font-weight:600}.connection{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.connection span:last-child{text-align:right}.side{display:flex;flex-direction:column;justify-content:space-between;gap:22px}.side .card{flex:1}.bigstat{font-size:38px;font-weight:700;letter-spacing:-.04em;margin:12px 0 2px}.bigstat small{font-size:16px;color:var(--muted);font-weight:500}.meter{height:7px;background:#26323a;border-radius:20px;overflow:hidden;margin:17px 0 8px}.meter span{height:100%;display:block;background:linear-gradient(90deg,#3bbd8c,#a2e78d);border-radius:20px;transition:width .35s}.hint{font-size:11px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:18px}.metric{min-height:132px}.metric .bigstat{font-size:30px}.history{padding:24px}.history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}.history-head h2{font-size:17px;margin:0 0 3px}.history-head p{font-size:12px;color:var(--muted);margin:0}.live-tag{color:var(--green);font-size:11px;font-weight:700;letter-spacing:.1em}.rounds{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.round{border:1px solid var(--line);background:#0d141a;border-radius:12px;padding:13px 12px;min-height:68px}.round .num{font-weight:700;font-size:16px}.round .time{font-size:10px;color:var(--muted);margin-top:4px}.round.high{border-color:#26533f;background:#10221b}.round.high .num{color:var(--green)}.round.low .num{color:#dbe4e6}.empty{padding:20px;border:1px dashed #32404a;border-radius:12px;color:var(--muted);text-align:center;grid-column:1/-1}.footer{display:flex;justify-content:space-between;gap:16px;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:#9bb3bd;text-decoration:none}.footer a:hover{color:var(--green)}.top-actions{display:flex;align-items:center;gap:10px}.lang-select,.sound-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#10171d;color:var(--text);font:inherit;font-size:12px}.sound-toggle{cursor:pointer}.signal{display:flex;align-items:center;gap:15px;margin:-16px 0 18px;padding:15px 18px;border:1px solid #98733d;border-radius:16px;background:linear-gradient(110deg,#302516,#171914);color:#ffe3a6}.signal[hidden]{display:none}.signal-icon{height:38px;width:38px;flex:none;border-radius:12px;background:#76531e;color:#ffe3a6;display:grid;place-items:center;font-size:20px;font-weight:800}.signal strong{display:block;font-size:14px}.signal p{margin:3px 0 0;color:#d4c7a8;font-size:12px}
+    @media(max-width:760px){.wrap{padding:22px 15px 32px}.top{align-items:flex-start}.top-actions{flex-wrap:wrap;justify-content:flex-end}.hero{grid-template-columns:1fr}.current{min-height:205px}.side{display:grid;grid-template-columns:1fr 1fr}.grid{gap:10px}.metric{padding:17px;min-height:122px}.metric .bigstat{font-size:25px}.rounds{grid-template-columns:repeat(3,1fr)}.top{margin-bottom:22px}.card{border-radius:16px;padding:20px}}
+    @media(max-width:420px){.side{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.rounds{gap:7px}.round{padding:11px 9px}.footer{flex-direction:column}}
     .page-layout{width:min(100%,1520px);margin:0 auto;padding:24px 18px 36px;display:grid;grid-template-columns:160px minmax(0,1120px) 160px;justify-content:center;align-items:start;gap:22px}.wrap{width:100%;max-width:none;margin:0;padding:10px 0 0}.ad-rail{position:sticky;top:24px;min-width:0;padding-top:82px}.ad-wrap{width:160px;min-height:600px;padding:10px 8px;border:1px solid #1c2931;border-radius:14px;background:#0e1419;text-align:center}.ad-label{display:block;color:#788993;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}.ad-wrap .adsbygoogle{display:block;width:100%;min-height:580px;background:transparent}.history{margin-top:18px}.footer{padding-bottom:8px}
     @media(max-width:1100px){.page-layout{display:flex;flex-direction:column;max-width:1168px;padding:20px 24px 36px}.ad-rail:first-child{display:none}.ad-rail:last-child{display:block;position:static;order:2;width:100%;padding:0}.ad-wrap{width:100%;min-height:120px}.ad-wrap .adsbygoogle{min-height:100px}.wrap{padding:0}}
   </style>
@@ -22,39 +22,81 @@
     <aside class="ad-rail" aria-label="Publicidade lateral esquerda"><!-- ADSENSE_SLOT_LEFT --></aside>
     <main class="wrap">
     <header class="top">
-      <div class="brand"><div class="logo">↗</div><div><h1>Crash Monitor</h1><p>Bot de análise · FaucetPay</p></div></div>
-      <div id="status" class="pill"><span class="dot"></span><span>Conectando painel</span></div>
+      <div class="brand"><div class="logo">↗</div><div><h1 data-i18n="brand">Crash Monitor</h1><p data-i18n="tagline">Bot de análise · FaucetPay</p></div></div>
+      <div class="top-actions"><div id="status" class="pill"><span class="dot"></span><span data-i18n="connecting">Conectando painel</span></div><select id="languageToggle" class="lang-select" aria-label="Language"><option value="pt">Português</option><option value="en">English</option></select><button id="soundToggle" class="sound-toggle" type="button">Ativar som</button></div>
     </header>
+    <section id="signal" class="signal" aria-live="assertive" hidden>
+      <div class="signal-icon">!</div>
+      <div><strong data-i18n="signalTitle">Sinal: frequência histórica ≥80%</strong><p data-i18n="signalDescription">Pelo menos 80% de todas as rodadas salvas atingiram 2x. Isto descreve o histórico e não prevê a próxima rodada.</p></div>
+    </section>
     <section class="hero">
       <article class="card current">
-        <div><div class="eyebrow">Multiplicador atual</div><div id="current" class="value">—</div><div id="updated" class="sub">Aguardando primeira leitura do bot</div></div>
-        <div class="connection"><span>Conexão com o jogo</span><span id="connection">Verificando…</span></div>
+        <div><div class="eyebrow" data-i18n="currentMultiplier">Multiplicador atual</div><div id="current" class="value">—</div><div id="updated" class="sub" data-i18n="waitingFirstRead">Aguardando primeira leitura do bot</div></div>
+        <div class="connection"><span data-i18n="gameConnection">Conexão com o jogo</span><span id="connection" data-i18n="checking">Verificando…</span></div>
       </article>
       <div class="side">
-        <article class="card"><div class="eyebrow">Frequência histórica ≥ 2x</div><div id="frequency" class="bigstat">—<small> %</small></div><div class="meter"><span id="meter" style="width:0"></span></div><div id="sample" class="hint">Calculando com as últimas rodadas</div></article>
-        <article class="card"><div class="eyebrow">Rodadas coletadas</div><div id="total" class="bigstat">0</div><div class="hint">Dados observados pelo bot</div></article>
+        <article class="card"><div class="eyebrow" data-i18n="historicalFrequency">Frequência histórica ≥ 2x</div><div id="frequency" class="bigstat">—<small> %</small></div><div class="meter"><span id="meter" style="width:0"></span></div><div id="sample" class="hint" data-i18n="calculating">Calculando com as últimas rodadas</div></article>
+        <article class="card"><div class="eyebrow" data-i18n="roundsCollected">Rodadas coletadas</div><div id="total" class="bigstat">0</div><div class="hint" data-i18n="observedByBot">Dados observados pelo bot</div></article>
       </div>
     </section>
     <section class="grid">
-      <article class="card metric"><div class="eyebrow">Média · últimas 100</div><div id="average" class="bigstat">—</div><div class="hint">Multiplicador médio observado</div></article>
-      <article class="card metric"><div class="eyebrow">Maior · últimas 100</div><div id="maximum" class="bigstat">—</div><div class="hint">Maior multiplicador observado</div></article>
-      <article class="card metric"><div class="eyebrow">Amostra da análise</div><div id="sampleSize" class="bigstat">0</div><div class="hint">Rodadas usadas no resumo</div></article>
+      <article class="card metric"><div class="eyebrow" data-i18n="averageLast100">Média · todas as rodadas</div><div id="average" class="bigstat">—</div><div class="hint" data-i18n="averageHint">Multiplicador médio observado</div></article>
+      <article class="card metric"><div class="eyebrow" data-i18n="maximumLast100">Maior · todas as rodadas</div><div id="maximum" class="bigstat">—</div><div class="hint" data-i18n="maximumHint">Maior multiplicador observado</div></article>
     </section>
-    <section class="card history">
-      <div class="history-head"><div><h2>Últimas rodadas</h2><p>Histórico capturado pelo monitor</p></div><span class="live-tag">● ATUALIZAÇÃO AUTOMÁTICA</span></div>
-      <div id="rounds" class="rounds"><div class="empty">Aguardando dados das rodadas…</div></div>
+    <section id="historyCard" class="card history">
+      <div class="history-head"><div><h2 data-i18n="lastRounds">Últimas rodadas</h2><p data-i18n="historyDescription">Histórico capturado pelo monitor</p></div><span class="live-tag" data-i18n="autoUpdate">● ATUALIZAÇÃO AUTOMÁTICA</span></div>
+      <div id="rounds" class="rounds"><div class="empty" data-i18n="waitingRounds">Aguardando dados das rodadas…</div></div>
     </section>
-    <footer class="footer"><span>Estatísticas históricas não preveem resultados futuros.</span><span>Atualização automática a cada 5 segundos · <a href="/health">Status do serviço</a></span></footer>
+    <footer class="footer"><span data-i18n="disclaimer">Estatísticas históricas não preveem resultados futuros.</span><span><span data-i18n="refreshEvery">Atualização automática a cada 5 segundos</span> · <a href="/health" data-i18n="serviceStatus">Status do serviço</a></span></footer>
     </main>
     <aside class="ad-rail" aria-label="Publicidade lateral direita"><!-- ADSENSE_SLOT_RIGHT --></aside>
   </div>
 <script>
   const $ = (id) => document.getElementById(id);
+  const translations = {
+    pt: {brand:'Crash Monitor',tagline:'Painel de análise · FaucetPay',connecting:'Conectando painel',currentMultiplier:'Multiplicador atual',waitingFirstRead:'Aguardando primeira leitura do bot',gameConnection:'Conexão com o jogo',checking:'Verificando…',historicalFrequency:'Taxa histórica ≥ 2x · todas as rodadas',calculating:'Calculando com as últimas rodadas',roundsCollected:'Rodadas coletadas',observedByBot:'Dados observados pelo bot',averageLast100:'Média · todas as rodadas',averageHint:'Média de todos os resultados salvos',maximumLast100:'Maior · todas as rodadas',maximumHint:'Maior resultado salvo',lastRounds:'Últimas rodadas',historyDescription:'Histórico capturado pelo monitor',autoUpdate:'● ATUALIZAÇÃO AUTOMÁTICA',waitingRounds:'Aguardando dados das rodadas…',noRounds:'Ainda não há rodadas capturadas. O painel será atualizado assim que o bot coletar dados.',mostRecent:'Mais recente',disclaimer:'Estatísticas históricas não preveem resultados futuros.',refreshEvery:'Atualização automática a cada 5 segundos',serviceStatus:'Status do serviço',botConnected:'Bot conectado',botStarting:'Bot iniciando',botStopped:'Bot parado',connectionMonitoring:'Conectado e monitorando',waitingConnection:'Aguardando conexão',noService:'Sem resposta do serviço',reconnecting:'Painel reconectando',lastRead:(time)=>`Última leitura às ${time}`,frequencySample:(a,n,low,high)=>`${a} de ${n} rodadas foram ≥ 2x · IC 95%: ${low}–${high}%`,waitingStats:'Aguardando rodadas para calcular',enableSound:'Ativar som',disableSound:'Som ativado',signalTitle:'Sinal: frequência histórica ≥80%',signalDescription:'Pelo menos 80% de todas as rodadas salvas atingiram 2x. Isto descreve o histórico e não prevê a próxima rodada.'},
+    en: {brand:'Crash Monitor',tagline:'Analysis dashboard · FaucetPay',connecting:'Connecting dashboard',currentMultiplier:'Current multiplier',waitingFirstRead:'Waiting for the bot’s first reading',gameConnection:'Game connection',checking:'Checking…',historicalFrequency:'Historical rate ≥ 2x · all rounds',calculating:'Calculating from recent rounds',roundsCollected:'Rounds collected',observedByBot:'Data observed by the bot',averageLast100:'Average · all rounds',averageHint:'Average of all saved results',maximumLast100:'Highest · all rounds',maximumHint:'Highest saved result',lastRounds:'Recent rounds',historyDescription:'History captured by the monitor',autoUpdate:'● LIVE UPDATES',waitingRounds:'Waiting for round data…',noRounds:'No rounds have been captured yet. The panel will update when the bot collects data.',mostRecent:'Most recent',disclaimer:'Past statistics do not predict future results.',refreshEvery:'Automatically updates every 5 seconds',serviceStatus:'Service status',botConnected:'Bot connected',botStarting:'Bot starting',botStopped:'Bot stopped',connectionMonitoring:'Connected and monitoring',waitingConnection:'Waiting for connection',noService:'Service did not respond',reconnecting:'Reconnecting dashboard',lastRead:(time)=>`Last reading at ${time}`,frequencySample:(a,n,low,high)=>`${a} of ${n} rounds were ≥ 2x · 95% CI: ${low}–${high}%`,waitingStats:'Waiting for rounds to calculate',enableSound:'Enable sound',disableSound:'Sound on',signalTitle:'Signal: historical frequency ≥80%',signalDescription:'At least 80% of all saved rounds reached 2x. This describes past data and does not predict the next round.'}
+  };
+  let language = localStorage.getItem('crashMonitorLanguage') === 'en' ? 'en' : 'pt';
+  let soundEnabled = false;
+  let alertWasActive = false;
+  const tr = (key, ...args) => { const value = translations[language][key]; return typeof value === 'function' ? value(...args) : value; };
+  function setLanguage(value) {
+    language = value === 'en' ? 'en' : 'pt';
+    localStorage.setItem('crashMonitorLanguage', language);
+    document.documentElement.lang = language === 'en' ? 'en' : 'pt-BR';
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = tr(el.dataset.i18n); });
+    $('languageToggle').value = language;
+    document.title = language === 'en' ? 'Crash Monitor | Analysis Dashboard' : 'Crash Monitor | Bot Analise';
+    updateSoundButton();
+  }
+  function updateSoundButton() { $('soundToggle').textContent = tr(soundEnabled ? 'disableSound' : 'enableSound'); }
+  function playAlertTone() {
+    if (!soundEnabled) return;
+    try {
+      const audio = new AudioContext();
+      const oscillator = audio.createOscillator();
+      const gain = audio.createGain();
+      oscillator.type = 'sine'; oscillator.frequency.value = 880;
+      gain.gain.setValueAtTime(0.0001, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.22, audio.currentTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.45);
+      oscillator.connect(gain); gain.connect(audio.destination);
+      oscillator.start(); oscillator.stop(audio.currentTime + 0.46);
+      oscillator.onended = () => audio.close();
+    } catch (error) {}
+  }
+  function updateHistoricalSignal(stats) {
+    const isActive = Boolean(stats && stats.sampleSize >= 100 && stats.signal80);
+    $('signal').hidden = !isActive;
+    if (isActive && !alertWasActive) playAlertTone();
+    alertWasActive = isActive;
+  }
   const fmt = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '—';
   function renderRounds(rounds) {
     const container = $('rounds');
     if (!rounds || rounds.length === 0) {
-      container.innerHTML = '<div class="empty">Ainda não há rodadas capturadas. O painel será atualizado assim que o bot coletar dados.</div>';
+      container.innerHTML = `<div class="empty">${tr('noRounds')}</div>`;
       return;
     }
     container.replaceChildren(...rounds.map((round, index) => {
@@ -66,7 +108,7 @@
       number.textContent = `${fmt(multiplier)}x`;
       const time = document.createElement('div');
       time.className = 'time';
-      time.textContent = index === 0 ? 'Mais recente' : new Date(round.timestamp).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+      time.textContent = index === 0 ? tr('mostRecent') : new Date(round.timestamp).toLocaleTimeString(document.documentElement.lang, {hour:'2-digit',minute:'2-digit'});
       item.append(number, time);
       return item;
     }));
@@ -78,34 +120,42 @@
       const data = await response.json();
       const isConnected = data.running && data.connected;
       $('status').className = `pill ${isConnected ? 'live' : ''}`;
-      $('status').lastElementChild.textContent = isConnected ? 'Bot conectado' : data.running ? 'Bot iniciando' : 'Bot parado';
-      $('connection').textContent = data.connected ? 'Conectado e monitorando' : 'Aguardando conexão';
+      $('status').lastElementChild.textContent = isConnected ? tr('botConnected') : data.running ? tr('botStarting') : tr('botStopped');
+      $('connection').textContent = data.connected ? tr('connectionMonitoring') : tr('waitingConnection');
       $('current').textContent = data.currentCrash || '—';
       $('current').classList.toggle('green', Number.parseFloat(data.currentCrash) >= 2);
-      $('updated').textContent = data.lastUpdatedAt ? `Última leitura às ${new Date(data.lastUpdatedAt).toLocaleTimeString('pt-BR')}` : 'Aguardando primeira leitura do bot';
-      $('total').textContent = Number(data.totalRounds || 0).toLocaleString('pt-BR');
+      $('updated').textContent = data.lastUpdatedAt ? tr('lastRead', new Date(data.lastUpdatedAt).toLocaleTimeString(document.documentElement.lang)) : tr('waitingFirstRead');
+      $('total').textContent = Number(data.totalRounds || 0).toLocaleString(language === 'en' ? 'en-US' : 'pt-BR');
       if (data.stats) {
         $('frequency').innerHTML = `${data.stats.frequencyAtLeast2x}<small> %</small>`;
         $('meter').style.width = `${data.stats.frequencyAtLeast2x}%`;
-        $('sample').textContent = `${data.stats.atLeast2x} de ${data.stats.sampleSize} rodadas foram ≥ 2x`;
+        $('sample').textContent = tr('frequencySample', data.stats.atLeast2x, data.stats.sampleSize, data.stats.confidence95.lower, data.stats.confidence95.upper);
         $('average').textContent = `${fmt(data.stats.average)}x`;
         $('maximum').textContent = `${fmt(data.stats.maximum)}x`;
-        $('sampleSize').textContent = data.stats.sampleSize;
+
       } else {
         $('frequency').innerHTML = '—<small> %</small>';
         $('meter').style.width = '0';
-        $('sample').textContent = 'Aguardando rodadas para calcular';
+        $('sample').textContent = tr('waitingStats');
         $('average').textContent = '—';
         $('maximum').textContent = '—';
-        $('sampleSize').textContent = '0';
+
       }
+      updateHistoricalSignal(data.stats);
       renderRounds(data.rounds);
     } catch (error) {
       $('status').className = 'pill';
-      $('status').lastElementChild.textContent = 'Painel reconectando';
-      $('connection').textContent = 'Sem resposta do serviço';
+      $('status').lastElementChild.textContent = tr('reconnecting');
+      $('connection').textContent = tr('noService');
     }
   }
+  $('languageToggle').addEventListener('change', event => { setLanguage(event.target.value); refresh(); });
+  $('soundToggle').addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    updateSoundButton();
+    if (soundEnabled) playAlertTone();
+  });
+  setLanguage(language);
   refresh();
   setInterval(refresh, 5000);
 </script>

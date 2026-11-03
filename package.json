@@ -1,7 +1,7 @@
 {
   "name": "faucetpay-crash-bot",
   "version": "1.0.0",
-  "description": "Monitors FaucetPay Crash game, displays last 10 rounds, current crash, and calculates probability of crash >= 2x after 100 rounds",
+  "description": "Monitors FaucetPay Crash game, stores all collected rounds compactly, and reports historical statistics for results at or above 2x",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
