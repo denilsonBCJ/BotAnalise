@@ -254,12 +254,14 @@ const server = http.createServer((req, res) => {
             if (validPublisherId && validAdSlot) {
                 page = page.replace('<!-- ADSENSE_CODE -->',
                     `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}" crossorigin="anonymous"></script>`);
-                page = page.replace('<!-- ADSENSE_SLOT -->',
-                    `<aside class="ad-wrap" aria-label="Publicidade"><span class="ad-label">Publicidade</span><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></aside>`);
+                const adMarkup = `<div class="ad-wrap"><span class="ad-label">Publicidade</span><ins class="adsbygoogle" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
+                page = page.replace('<!-- ADSENSE_SLOT_LEFT -->', adMarkup)
+                    .replace('<!-- ADSENSE_SLOT_RIGHT -->', adMarkup);
             }
             page = page.replace('<!-- ADSENSE_ACCOUNT_META -->', '')
                 .replace('<!-- ADSENSE_CODE -->', '')
-                .replace('<!-- ADSENSE_SLOT -->', '');
+                .replace('<!-- ADSENSE_SLOT_LEFT -->', '')
+                .replace('<!-- ADSENSE_SLOT_RIGHT -->', '');
             res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
             res.end(page);
         } catch (e) {
