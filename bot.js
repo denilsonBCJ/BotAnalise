@@ -200,6 +200,21 @@ class CrashBot {
 
 const server = http.createServer((req, res) => {
     const pathname = new URL(req.url, 'http://localhost').pathname;
+    const adsenseClientId = process.env.ADSENSE_CLIENT_ID || '';
+    const adsenseSlotId = process.env.ADSENSE_SLOT_ID || '';
+    const validPublisherId = /^ca-pub-\d{16}$/.test(adsenseClientId);
+    const validAdSlot = /^\d{1,20}$/.test(adsenseSlotId);
+
+    if (pathname === '/ads.txt') {
+        if (!validPublisherId) {
+            res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
+            res.end('AdSense ainda não configurado.');
+            return;
+        }
+        res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+        res.end(`google.com, ${adsenseClientId.slice(4)}, DIRECT, f08c47fec0942fa0\n`);
+        return;
+    }
     if (pathname === '/health') {
         res.writeHead(200, { 'content-type': 'application/json' });
         res.end(JSON.stringify({ status: 'ok', running: bot.isRunning }));
@@ -231,7 +246,20 @@ const server = http.createServer((req, res) => {
     }
     if (pathname === '/') {
         try {
-            const page = fs.readFileSync(path.join(__dirname, 'public', 'index.html'));
+            let page = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf8');
+            if (validPublisherId) {
+                page = page.replace('<!-- ADSENSE_ACCOUNT_META -->',
+                    `<meta name="google-adsense-account" content="${adsenseClientId}">`);
+            }
+            if (validPublisherId && validAdSlot) {
+                page = page.replace('<!-- ADSENSE_CODE -->',
+                    `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}" crossorigin="anonymous"></script>`);
+                page = page.replace('<!-- ADSENSE_SLOT -->',
+                    `<aside class="ad-wrap" aria-label="Publicidade"><span class="ad-label">Publicidade</span><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></aside>`);
+            }
+            page = page.replace('<!-- ADSENSE_ACCOUNT_META -->', '')
+                .replace('<!-- ADSENSE_CODE -->', '')
+                .replace('<!-- ADSENSE_SLOT -->', '');
             res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
             res.end(page);
         } catch (e) {
