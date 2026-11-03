@@ -212,7 +212,7 @@ const server = http.createServer((req, res) => {
             return;
         }
         res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
-        res.end(`google.com, ${adsenseClientId.slice(4)}, DIRECT, f08c47fec0942fa0\n`);
+        res.end(`google.com, ${adsenseClientId.slice(7)}, DIRECT, f08c47fec0942fa0\n`);
         return;
     }
     if (pathname === '/health') {
