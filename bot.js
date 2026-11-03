@@ -17,6 +17,9 @@ class CrashBot {
             this.rounds = [];
         }
         this.isRunning = true;
+        this.connected = false;
+        this.currentCrash = 'Aguardando...';
+        this.lastUpdatedAt = null;
     }
 
     saveData() {
@@ -47,6 +50,7 @@ class CrashBot {
             () => document.body.innerText.includes('LIVE'),
             { timeout: 20000 }
         );
+        this.connected = true;
         console.log('✅ Jogo conectado!');
         await new Promise(r => setTimeout(r, 3000));
     }
@@ -146,6 +150,8 @@ class CrashBot {
         while (this.isRunning) {
             try {
                 const dados = await this.scrapeData();
+                this.currentCrash = dados.atual;
+                this.lastUpdatedAt = new Date().toISOString();
                 
                 process.stdout.write('\x1Bc'); // Limpa a tela
                 console.log('═'.repeat(65));
@@ -193,9 +199,45 @@ class CrashBot {
 }
 
 const server = http.createServer((req, res) => {
-    if (req.url === '/health') {
+    const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/health') {
         res.writeHead(200, { 'content-type': 'application/json' });
         res.end(JSON.stringify({ status: 'ok', running: bot.isRunning }));
+        return;
+    }
+    if (pathname === '/api/status') {
+        const recent100 = bot.rounds.slice(0, 100);
+        const atLeast2x = recent100.filter(round => Number(round.multiplier) >= 2).length;
+        res.writeHead(200, {
+            'content-type': 'application/json; charset=utf-8',
+            'cache-control': 'no-store'
+        });
+        res.end(JSON.stringify({
+            running: bot.isRunning,
+            connected: bot.connected,
+            currentCrash: bot.currentCrash,
+            lastUpdatedAt: bot.lastUpdatedAt,
+            rounds: bot.rounds.slice(0, 12),
+            totalRounds: bot.rounds.length,
+            stats: recent100.length ? {
+                sampleSize: recent100.length,
+                atLeast2x,
+                frequencyAtLeast2x: Math.round((atLeast2x / recent100.length) * 100),
+                average: Number((recent100.reduce((sum, round) => sum + Number(round.multiplier || 0), 0) / recent100.length).toFixed(2)),
+                maximum: Math.max(...recent100.map(round => Number(round.multiplier) || 0))
+            } : null
+        }));
+        return;
+    }
+    if (pathname === '/') {
+        try {
+            const page = fs.readFileSync(path.join(__dirname, 'public', 'index.html'));
+            res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+            res.end(page);
+        } catch (e) {
+            res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' });
+            res.end('Não foi possível carregar o painel.');
+        }
         return;
     }
     res.writeHead(404);
