@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FaucetPay Crash Bot
 
 A bot that monitors the FaucetPay Crash game (https://faucetpay.io/play/crash), displays the last 10 rounds and current crash multiplier, saves historical data, and calculates the probability of crash ≥ 2x after collecting 100 rounds.
@@ -102,3 +103,6 @@ All rounds are saved to `crash-data.json` with this structure:
 ## Disclaimer
 
 This bot is for educational/monitoring purposes only. Gambling involves risk. Past results don't guarantee future outcomes. The probability calculation is based on historical frequency, not a prediction model.
+=======
+# Bot_Analise_Faucet_Pay_Crash
+>>>>>>> ba0ac13162b3826f6cf08ac999e630722c62c4a9

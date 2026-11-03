@@ -1,13 +1,21 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 
 class CrashBot {
     constructor() {
         this.browser = null;
         this.page = null;
         this.dataFile = path.join(__dirname, 'crash-data.json');
-        this.rounds = []; // Sempre começa vazio
+        try {
+            this.rounds = fs.existsSync(this.dataFile)
+                ? JSON.parse(fs.readFileSync(this.dataFile, 'utf8'))
+                : [];
+        } catch (e) {
+            console.error('Não foi possível carregar crash-data.json:', e.message);
+            this.rounds = [];
+        }
         this.isRunning = true;
     }
 
@@ -18,16 +26,10 @@ class CrashBot {
     }
 
     async init() {
-        // 🛑 LIMPA O ARQUIVO ANTIGO PARA COMEÇAR DO ZERO
-        if (fs.existsSync(this.dataFile)) {
-            fs.unlinkSync(this.dataFile);
-            console.log('🧹 Histórico antigo apagado. Começando do zero!');
-        }
-
         console.log('🚀 Iniciando navegador...');
         this.browser = await puppeteer.launch({
             headless: true, 
-            executablePath: '/usr/bin/chromium',
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium',
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         
@@ -189,6 +191,19 @@ class CrashBot {
         process.exit(0);
     }
 }
+
+const server = http.createServer((req, res) => {
+    if (req.url === '/health') {
+        res.writeHead(200, { 'content-type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ok', running: bot.isRunning }));
+        return;
+    }
+    res.writeHead(404);
+    res.end('Not found');
+});
+
+const port = Number(process.env.PORT || 3000);
+server.listen(port, '0.0.0.0', () => console.log(`Health endpoint listening on ${port}`));
 
 const bot = new CrashBot();
 bot.init().then(() => bot.run()).catch(e => {
