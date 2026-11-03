@@ -1,0 +1,28 @@
+{
+  "name": "faucetpay-crash-bot",
+  "version": "1.0.0",
+  "description": "Monitors FaucetPay Crash game, displays last 10 rounds, current crash, and calculates probability of crash >= 2x after 100 rounds",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node bot.js"
+  },
+  "keywords": [
+    "faucetpay",
+    "crash",
+    "bot",
+    "gambling",
+    "monitor"
+  ],
+  "type": "commonjs",
+  "dependencies": {
+    "puppeteer": "^25.16.0"
+  },
+  "allowScripts": {
+    "puppeteer@25.16.0": true,
+    "sqlite3@6.0.1": true
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
